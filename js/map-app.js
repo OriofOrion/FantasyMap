@@ -418,33 +418,44 @@ class MapApp {
   _drawPath(ctx, o) {
     if (o.points.length < 2) return;
     ctx.save();
+    const smooth = catmullRomPoints(o.points, o.closed);
     if (o.type === 'river') {
-      ctx.strokeStyle = '#3d6fa3';
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      const n = o.points.length;
-      for (let i = 0; i < n - 1; i++) {
-        const w = (o.width || 8) * (0.4 + (i / (n - 1)) * 0.8);
-        ctx.lineWidth = w;
-        ctx.beginPath();
-        ctx.moveTo(o.points[i].x, o.points[i].y);
-        ctx.lineTo(o.points[i + 1].x, o.points[i + 1].y);
-        ctx.stroke();
+      const n = smooth.length;
+      // A wider, darker undertone first gives the river a carved, shaded
+      // bank instead of a single flat stroke sitting on top of the terrain.
+      for (const pass of [{ color: 'rgba(30,60,95,0.35)', mult: 1.7 }, { color: '#3d6fa3', mult: 1 }]) {
+        ctx.strokeStyle = pass.color;
+        for (let i = 0; i < n - 1; i++) {
+          const w = (o.width || 8) * (0.4 + (i / (n - 1)) * 0.8) * pass.mult;
+          ctx.lineWidth = w;
+          ctx.beginPath();
+          ctx.moveTo(smooth[i].x, smooth[i].y);
+          ctx.lineTo(smooth[i + 1].x, smooth[i + 1].y);
+          ctx.stroke();
+        }
       }
     } else if (o.type === 'road') {
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(40,25,10,0.25)';
+      ctx.lineWidth = (o.width || 5) + 2;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      smooth.forEach((p, i) => (i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)));
+      ctx.stroke();
       ctx.strokeStyle = '#7a5a3a';
       ctx.lineWidth = o.width || 5;
       ctx.setLineDash([o.width * 1.6 || 9, o.width * 1.4 || 7]);
-      ctx.lineCap = 'round';
       ctx.beginPath();
-      o.points.forEach((p, i) => (i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)));
+      smooth.forEach((p, i) => (i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)));
       ctx.stroke();
     } else if (o.type === 'border') {
       ctx.strokeStyle = o.color || '#8a3b3b';
       ctx.lineWidth = 3;
       ctx.setLineDash([14, 8]);
       ctx.beginPath();
-      o.points.forEach((p, i) => (i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)));
+      smooth.forEach((p, i) => (i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)));
       if (o.closed) ctx.closePath();
       ctx.stroke();
     }
@@ -452,6 +463,12 @@ class MapApp {
   }
 
   _drawIcon(ctx, o) {
+    ctx.save();
+    ctx.fillStyle = 'rgba(20,15,10,0.28)';
+    ctx.beginPath();
+    ctx.ellipse(o.x, o.y + o.size * 0.32, o.size * 0.34, o.size * 0.12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
     drawIconGlyph(ctx, o.subtype, o.x, o.y, o.size);
     if (o.label) {
       ctx.save();
@@ -579,6 +596,27 @@ class MapApp {
     if (this.state.settings.compass) this._drawCompass(ctx, this.state.settings.compass);
     return canvas.toDataURL('image/png');
   }
+}
+
+// Turns a hand-clicked polyline into a smooth curve through the same points
+// (Catmull-Rom), so rivers/roads/borders read as drawn rather than plotted.
+function catmullRomPoints(pts, closed, segments = 12) {
+  const n = pts.length;
+  if (n < 3) return pts.slice();
+  const getPoint = (i) => (closed ? pts[((i % n) + n) % n] : pts[Math.max(0, Math.min(n - 1, i))]);
+  const out = [];
+  const segCount = closed ? n : n - 1;
+  for (let i = 0; i < segCount; i++) {
+    const p0 = getPoint(i - 1), p1 = getPoint(i), p2 = getPoint(i + 1), p3 = getPoint(i + 2);
+    for (let s = 0; s < segments; s++) {
+      const t = s / segments, t2 = t * t, t3 = t2 * t;
+      const x = 0.5 * (2 * p1.x + (-p0.x + p2.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 + (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3);
+      const y = 0.5 * (2 * p1.y + (-p0.y + p2.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 + (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3);
+      out.push({ x, y });
+    }
+  }
+  out.push(closed ? out[0] : pts[n - 1]);
+  return out;
 }
 
 function hexToRgba(hex, alpha) {

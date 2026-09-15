@@ -30,7 +30,7 @@ const DECO_PARAMS = {
   reed:       { spacing: 28, size: 20 },
   dune:       { spacing: 46, size: 34 },
   crack:      { spacing: 48, size: 30 },
-  wave:       { spacing: 40, size: 22 },
+  wave:       { spacing: 95, size: 20 },
   tuft:       { spacing: 24, size: 14 },
 };
 
@@ -66,8 +66,8 @@ function drawDeco(ctx, type, x, y, size, rot) {
   }
   switch (type) {
     case 'wave': {
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-      ctx.lineWidth = size * 0.09;
+      ctx.strokeStyle = 'rgba(255,255,255,0.32)';
+      ctx.lineWidth = size * 0.08;
       ctx.beginPath();
       ctx.moveTo(-size * 0.4, 0);
       ctx.quadraticCurveTo(-size * 0.2, -size * 0.22, 0, 0);
