@@ -241,7 +241,10 @@ class MapApp {
     const grad = ctx.createRadialGradient(wx, wy, 0, wx, wy, radius);
     grad.addColorStop(0, type.color);
     grad.addColorStop(0.75, type.color);
-    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    // Fade to a *transparent version of the same color*, not transparent
+    // black -- fading toward black leaves a visible dark ring at each dab's
+    // edge once many overlapping dabs are composited along a stroke.
+    grad.addColorStop(1, hexToRgba(type.color, 0));
     ctx.save();
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = grad;
@@ -400,31 +403,15 @@ class MapApp {
   }
 
   _drawCompass(ctx, pos) {
-    const s = Math.max(40, Math.min(this.state.width, this.state.height) * 0.045);
+    const s = Math.max(60, Math.min(this.state.width, this.state.height) * 0.07);
     ctx.save();
     ctx.translate(pos.x, pos.y);
-    ctx.strokeStyle = '#3a2e22';
+    drawStamp(ctx, 'compass', s, '#3a2e22');
     ctx.fillStyle = '#3a2e22';
-    ctx.lineWidth = s * 0.03;
-    ctx.beginPath();
-    ctx.arc(0, 0, s, 0, Math.PI * 2);
-    ctx.stroke();
-    for (let i = 0; i < 4; i++) {
-      ctx.save();
-      ctx.rotate((Math.PI / 2) * i);
-      ctx.beginPath();
-      ctx.moveTo(0, -s);
-      ctx.lineTo(s * 0.16, 0);
-      ctx.lineTo(0, s * 0.28);
-      ctx.lineTo(-s * 0.16, 0);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-    }
-    ctx.font = `${s * 0.28}px Georgia, serif`;
+    ctx.font = `${s * 0.14}px Georgia, serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('N', 0, -s * 1.22);
+    ctx.fillText('N', 0, -s * 0.6);
     ctx.restore();
   }
 
@@ -592,6 +579,12 @@ class MapApp {
     if (this.state.settings.compass) this._drawCompass(ctx, this.state.settings.compass);
     return canvas.toDataURL('image/png');
   }
+}
+
+function hexToRgba(hex, alpha) {
+  const n = parseInt(hex.slice(1), 16);
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
 function distToSegment(px, py, a, b) {

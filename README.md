@@ -7,13 +7,12 @@ more, and label everything — all offline, with no account, server, or install 
 
 ## Running it
 
-There's no build step and no dependencies. Just open `index.html` in a modern
-desktop browser (Chrome, Firefox, Edge, Safari):
-
-- Double-click `index.html`, **or**
-- Serve the folder locally if your browser restricts `file://` access to canvas
-  images (e.g. `python3 -m http.server` from this directory, then visit
-  `http://localhost:8000`).
+There's no build step and no dependencies. Just double-click `index.html` to
+open it in a modern desktop browser (Chrome, Firefox, Edge, Safari) — no local
+server needed. All artwork (including the hand-drawn brush stamps below) is
+embedded directly in the JS files as data, so opening the file directly never
+runs into the canvas/`file://` restrictions that plain `<img src="...">` local
+image files can trigger.
 
 Everything runs client-side. Maps are saved to/loaded from `.json` files you
 choose on your own machine — nothing is uploaded anywhere.
@@ -22,20 +21,23 @@ choose on your own machine — nothing is uploaded anywhere.
 
 - **Freeform terrain painting** — soft brush across 13 terrain types (ocean,
   shallows, plains, grassland, forest, dense forest, hills, mountains, snow
-  peaks, swamp, desert, tundra, badlands), each with its own hand-drawn
-  decoration stamps (trees, peaks, dunes, reeds, waves...) instead of flat fill.
+  peaks, swamp, desert, tundra, badlands), each scattering its own decoration
+  stamps (trees, peaks, dunes, reeds, cracks...) instead of flat fill. Several
+  of these — trees, mountain peaks, hills, dunes, reeds, badland cracks — are
+  real hand-drawn brush art extracted from a Photoshop cartography brush set.
 - **Rivers & roads** — click to lay down points, double-click/Enter to finish;
   rivers taper from source to mouth, roads are dashed trails.
 - **Political borders** — dashed, colorable boundary lines for kingdoms/factions.
-- **17 points-of-interest icons** — castle, city, town, village, ruins, tower,
-  dungeon/cave, mine, port, camp, temple, lighthouse, farm, windmill, battle
-  site, landmark, monster lair — all drawn as vector line-art, no image assets.
+- **22 points-of-interest icons** — castle, city, town, village, ruins, tower,
+  dungeon/cave, mine, port, camp, temple (two styles), lighthouse, farm,
+  windmill, battle site, landmark, monster lair, island, shield/heraldry, map
+  pin, and a flagged castle — a mix of vector line-art and hand-drawn stamps.
 - **Labels** — kingdom titles, city names, water-feature names, and notes, each
   with their own typographic style.
 - **Select & edit** — click to select, drag to move (including individual river
   points), inspector panel for size/width/color/text, Delete to remove.
 - **Undo/redo**, pan (space+drag or middle-mouse) and zoom (scroll wheel).
-- **Decorative frame border and compass rose.**
+- **Decorative frame border and a hand-drawn compass rose.**
 - **Save/Load** to a portable `.json` file, **Export** to a `.png` image.
 
 ## Tips

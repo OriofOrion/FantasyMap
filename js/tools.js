@@ -95,9 +95,11 @@ class Tools {
     }
 
     if (tool === 'icon') {
+      const iconKey = this.ui.getIcon();
+      const def = ICON_DEFS[iconKey];
       const obj = {
-        id: this.app.nextId(), type: 'icon', subtype: this.ui.getIcon(),
-        x: world.x, y: world.y, size: 34, label: '',
+        id: this.app.nextId(), type: 'icon', subtype: iconKey,
+        x: world.x, y: world.y, size: (def && def.defaultSize) || 34, label: '',
       };
       this.app.addObject(obj);
       this.app.selectedId = obj.id;
