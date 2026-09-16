@@ -378,8 +378,21 @@ class MapApp {
     if (this.state.settings.showFrame) this._drawFrame(ctx);
     if (this.state.settings.compass) this._drawCompass(ctx, this.state.settings.compass);
 
+    this._applyAgedTone(ctx);
+
     if (this.selectedId) this._drawSelection(ctx, this.getObject(this.selectedId));
 
+    ctx.restore();
+  }
+
+  // A warm, muted "old paper" wash over the whole map so painted terrain,
+  // stamps and icons read as one toned surface instead of flat bright fill.
+  _applyAgedTone(ctx) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = '#e6d9b8';
+    ctx.fillRect(0, 0, this.state.width, this.state.height);
     ctx.restore();
   }
 
@@ -594,6 +607,7 @@ class MapApp {
     for (const o of this.state.objects) if (o.type === 'label') this._drawLabel(ctx, o);
     if (this.state.settings.showFrame) this._drawFrame(ctx);
     if (this.state.settings.compass) this._drawCompass(ctx, this.state.settings.compass);
+    this._applyAgedTone(ctx);
     return canvas.toDataURL('image/png');
   }
 }

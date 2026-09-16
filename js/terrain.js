@@ -1,21 +1,24 @@
 // Terrain type palette + the little stamped decorations (trees, peaks, dunes...)
 // that give painted regions a hand-drawn fantasy-map feel instead of flat GIS fill.
 
+// Muted, desaturated "aged paper" palette -- deliberately duller than a
+// typical flat-fill map so painted terrain reads as toned parchment rather
+// than bright cartoon color.
 const TERRAIN_TYPES = {
-  blank:     { label: 'Unmapped',  color: '#e9dfc4', deco: null },
-  ocean:     { label: 'Ocean',     color: '#3d6fa3', deco: 'wave' },
-  shallows:  { label: 'Shallows',  color: '#6fa6c9', deco: 'wave' },
-  plains:    { label: 'Plains',    color: '#cdc98f', deco: null },
-  grassland: { label: 'Grassland', color: '#a7c07a', deco: 'tuft' },
-  forest:    { label: 'Forest',    color: '#6f9457', deco: 'tree' },
-  deepforest:{ label: 'Dense Forest', color: '#4f7a45', deco: 'tree-dark' },
-  hills:     { label: 'Hills',     color: '#b9a769', deco: 'hill' },
-  mountains: { label: 'Mountains', color: '#948674', deco: 'peak' },
-  snowpeaks: { label: 'Snow Peaks', color: '#dfe6e9', deco: 'peak-snow' },
-  swamp:     { label: 'Swamp',     color: '#6c7a52', deco: 'reed' },
-  desert:    { label: 'Desert',    color: '#e1c98a', deco: 'dune' },
-  tundra:    { label: 'Tundra',    color: '#cdd6c4', deco: null },
-  badlands:  { label: 'Badlands',  color: '#8a6a58', deco: 'crack' },
+  blank:     { label: 'Unmapped',  color: '#e6dcc3', deco: null },
+  ocean:     { label: 'Ocean',     color: '#8a9fac', deco: 'wave' },
+  shallows:  { label: 'Shallows',  color: '#a8b8bf', deco: 'wave' },
+  plains:    { label: 'Plains',    color: '#c9c1a0', deco: null },
+  grassland: { label: 'Grassland', color: '#a8ab84', deco: 'tuft' },
+  forest:    { label: 'Forest',    color: '#7f8a6a', deco: 'tree' },
+  deepforest:{ label: 'Dense Forest', color: '#636f54', deco: 'tree-dark' },
+  hills:     { label: 'Hills',     color: '#b3a781', deco: 'hill' },
+  mountains: { label: 'Mountains', color: '#928a7a', deco: 'peak' },
+  snowpeaks: { label: 'Snow Peaks', color: '#d6d3c4', deco: 'peak-snow' },
+  swamp:     { label: 'Swamp',     color: '#7c8168', deco: 'reed' },
+  desert:    { label: 'Desert',    color: '#c9b989', deco: 'dune' },
+  tundra:    { label: 'Tundra',    color: '#c4c3b3', deco: null },
+  badlands:  { label: 'Badlands',  color: '#94826e', deco: 'crack' },
 };
 
 const TERRAIN_KEYS = Object.keys(TERRAIN_TYPES);
