@@ -1,24 +1,28 @@
 // Terrain type palette + the little stamped decorations (trees, peaks, dunes...)
 // that give painted regions a hand-drawn fantasy-map feel instead of flat GIS fill.
 
-// Muted, desaturated "aged paper" palette -- deliberately duller than a
-// typical flat-fill map so painted terrain reads as toned parchment rather
-// than bright cartoon color.
+// Antique-chart palette: almost everything is the same aged parchment.
+// Real 17th-century maps barely color-code terrain at all -- land is blank
+// cream paper and *ink symbol density* (tree dots, mountain hachures, field
+// hatching...) tells you what's there. Water is the one thing that gets a
+// distinct (but still pale, desaturated) tone, because separating land from
+// sea by color is load-bearing for actually using the map; every land type
+// is now only a whisper of tint away from the base parchment color.
 const TERRAIN_TYPES = {
-  blank:     { label: 'Unmapped',  color: '#e6dcc3', deco: null },
-  ocean:     { label: 'Ocean',     color: '#8a9fac', deco: 'wave' },
-  shallows:  { label: 'Shallows',  color: '#a8b8bf', deco: 'wave' },
-  plains:    { label: 'Plains',    color: '#c9c1a0', deco: null },
-  grassland: { label: 'Grassland', color: '#a8ab84', deco: 'tuft' },
-  forest:    { label: 'Forest',    color: '#7f8a6a', deco: 'tree' },
-  deepforest:{ label: 'Dense Forest', color: '#636f54', deco: 'tree-dark' },
-  hills:     { label: 'Hills',     color: '#b3a781', deco: 'hill' },
-  mountains: { label: 'Mountains', color: '#928a7a', deco: 'peak' },
-  snowpeaks: { label: 'Snow Peaks', color: '#d6d3c4', deco: 'peak-snow' },
-  swamp:     { label: 'Swamp',     color: '#7c8168', deco: 'reed' },
-  desert:    { label: 'Desert',    color: '#c9b989', deco: 'dune' },
-  tundra:    { label: 'Tundra',    color: '#c4c3b3', deco: null },
-  badlands:  { label: 'Badlands',  color: '#94826e', deco: 'crack' },
+  blank:     { label: 'Unmapped',  color: '#ece2c6', deco: null },
+  ocean:     { label: 'Ocean',     color: '#c7d0d3', deco: 'wave' },
+  shallows:  { label: 'Shallows',  color: '#d7dcd8', deco: 'wave' },
+  plains:    { label: 'Plains',    color: '#e9dfc0', deco: null },
+  grassland: { label: 'Grassland', color: '#e2dbb9', deco: 'tuft' },
+  forest:    { label: 'Forest',    color: '#dcdab8', deco: 'tree' },
+  deepforest:{ label: 'Dense Forest', color: '#d3d2ae', deco: 'tree-dark' },
+  hills:     { label: 'Hills',     color: '#e4d8b4', deco: 'hill' },
+  mountains: { label: 'Mountains', color: '#ded5bf', deco: 'peak' },
+  snowpeaks: { label: 'Snow Peaks', color: '#ede8db', deco: 'peak-snow' },
+  swamp:     { label: 'Swamp',     color: '#d8d5b2', deco: 'reed' },
+  desert:    { label: 'Desert',    color: '#e8d8a8', deco: 'dune' },
+  tundra:    { label: 'Tundra',    color: '#e2ddc9', deco: null },
+  badlands:  { label: 'Badlands',  color: '#dccbab', deco: 'crack' },
 };
 
 const TERRAIN_KEYS = Object.keys(TERRAIN_TYPES);
