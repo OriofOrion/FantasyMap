@@ -25,29 +25,32 @@ const TERRAIN_KEYS = Object.keys(TERRAIN_TYPES);
 
 // Rejection-sampling spacing + glyph size for each decoration type.
 const DECO_PARAMS = {
-  tree:       { spacing: 28, size: 24 },
-  'tree-dark':{ spacing: 46, size: 46 },  // stamp already depicts a small tree cluster
+  tree:       { spacing: 30, size: 26 },
+  'tree-dark':{ spacing: 60, size: 70 },  // stamp already depicts a whole forest mass
   hill:       { spacing: 48, size: 55 },
   peak:       { spacing: 55, size: 65 },
   'peak-snow':{ spacing: 55, size: 65 },
   reed:       { spacing: 28, size: 20 },
   dune:       { spacing: 46, size: 34 },
   crack:      { spacing: 42, size: 26 },
-  wave:       { spacing: 95, size: 20 },
-  tuft:       { spacing: 24, size: 14 },
+  wave:       { spacing: 70, size: 28 },
+  tuft:       { spacing: 60, size: 60 },
 };
 
 // Deco types backed by hand-drawn brush stamps (see brush-stamps.js) rather
 // than procedural vector shapes, plus the ink color each is tinted with.
+// All from the Janssonius 17th-century pack now, for one consistent style.
 const DECO_STAMPS = {
-  tree: { key: 'tree_starburst', color: '#3f6b34' },
-  'tree-dark': { key: 'tree_cluster', color: '#2f4a2a' },
+  tree: { key: 'jans_tree', color: '#3f4a30' },
+  'tree-dark': { key: 'jans_forest_mass', color: '#333d28' },
   hill: { key: 'jans_hill', color: 'rgba(58,46,24,0.6)' },
   peak: { key: 'jans_mountain_range', color: '#4a3f30' },
   'peak-snow': { key: 'jans_mountain_range', color: '#8f9499' },
   reed: { key: 'reed', color: '#3d4a2c' },
   dune: { key: 'dune', color: 'rgba(122,96,50,0.6)' },
   crack: { key: 'jans_rocks', color: 'rgba(58,38,26,0.65)' },
+  wave: { key: 'jans_shallow_dots', color: 'rgba(255,255,255,0.55)' },
+  tuft: { key: 'jans_field', color: 'rgba(60,58,30,0.5)' },
 };
 
 // Cheap deterministic pseudo-random so re-rendering the same deco point
@@ -66,29 +69,6 @@ function drawDeco(ctx, type, x, y, size, rot) {
     drawStamp(ctx, stamp.key, size, stamp.color);
     ctx.restore();
     return;
-  }
-  switch (type) {
-    case 'wave': {
-      ctx.strokeStyle = 'rgba(255,255,255,0.32)';
-      ctx.lineWidth = size * 0.08;
-      ctx.beginPath();
-      ctx.moveTo(-size * 0.4, 0);
-      ctx.quadraticCurveTo(-size * 0.2, -size * 0.22, 0, 0);
-      ctx.quadraticCurveTo(size * 0.2, size * 0.22, size * 0.4, 0);
-      ctx.stroke();
-      break;
-    }
-    case 'tuft': {
-      ctx.strokeStyle = 'rgba(70,90,40,0.5)';
-      ctx.lineWidth = size * 0.07;
-      for (const dx of [-0.15, 0, 0.15]) {
-        ctx.beginPath();
-        ctx.moveTo(dx * size, size * 0.15);
-        ctx.lineTo(dx * size * 1.4, -size * 0.25);
-        ctx.stroke();
-      }
-      break;
-    }
   }
   ctx.restore();
 }
