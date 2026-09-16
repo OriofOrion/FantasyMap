@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fantasy Map Builder</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="topbar">
+  <div class="brand">🗺️ Fantasy Map Builder <span id="build-tag" style="font-size:10px;color:#d9782b;vertical-align:super;">build: variants-v9</span></div>
+
+  <div class="group">
+    <button id="btn-new" title="New Map">New</button>
+    <button id="btn-save" title="Save to file">Save</button>
+    <button id="btn-load" title="Load from file">Load</button>
+    <input type="file" id="file-input" accept="application/json" hidden>
+    <button id="btn-export" title="Export as PNG image">Export PNG</button>
+  </div>
+
+  <div class="group">
+    <button id="btn-undo" title="Undo (Ctrl+Z)">↶ Undo</button>
+    <button id="btn-redo" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
+  </div>
+
+  <div class="group">
+    <button id="btn-zoom-out" title="Zoom out">−</button>
+    <button id="btn-zoom-fit" title="Fit to view">Fit</button>
+    <button id="btn-zoom-in" title="Zoom in">+</button>
+  </div>
+
+  <div class="group">
+    <label class="check"><input type="checkbox" id="chk-grid"> Grid</label>
+    <label class="check"><input type="checkbox" id="chk-frame" checked> Frame</label>
+    <button id="btn-compass" title="Place compass rose">Place Compass</button>
+  </div>
+
+  <div class="map-name" id="map-name-display">Untitled Map</div>
+</header>
+
+<div id="workspace">
+  <aside id="sidebar">
+    <div class="tool-tabs">
+      <button class="tool-tab active" data-panel="terrain">Terrain</button>
+      <button class="tool-tab" data-panel="water">Water &amp; Roads</button>
+      <button class="tool-tab" data-panel="icons">Icons</button>
+      <button class="tool-tab" data-panel="labels">Labels</button>
+      <button class="tool-tab" data-panel="select">Select</button>
+    </div>
+
+    <div class="tool-panel" id="panel-terrain">
+      <div class="panel-title">Paint Terrain</div>
+      <div class="swatch-grid" id="terrain-swatches"></div>
+      <div class="control-row">
+        <label>Brush Size</label>
+        <input type="range" id="brush-size" min="10" max="220" value="50">
+      </div>
+      <button class="wide-btn" id="btn-eraser">Eraser (paint unmapped)</button>
+    </div>
+
+    <div class="tool-panel hidden" id="panel-water">
+      <div class="panel-title">Draw Paths</div>
+      <button class="wide-btn tool-choice" data-tool="river">🌊 River</button>
+      <button class="wide-btn tool-choice" data-tool="road">🛤️ Road / Path</button>
+      <button class="wide-btn tool-choice" data-tool="border">⛓️ Border</button>
+      <div class="control-row" id="border-color-row">
+        <label>Border color</label>
+        <input type="color" id="border-color" value="#8a3b3b">
+      </div>
+      <p class="hint">Click to add points, double-click or press Enter to finish. Escape cancels. Right-click also finishes.</p>
+    </div>
+
+    <div class="tool-panel hidden" id="panel-icons">
+      <div class="panel-title">Place Icon</div>
+      <div class="swatch-grid" id="icon-swatches"></div>
+    </div>
+
+    <div class="tool-panel hidden" id="panel-labels">
+      <div class="panel-title">Place Label</div>
+      <button class="wide-btn tool-choice" data-tool="label" data-label-style="title">Kingdom / Region Title</button>
+      <button class="wide-btn tool-choice" data-tool="label" data-label-style="city">City / Town Name</button>
+      <button class="wide-btn tool-choice" data-tool="label" data-label-style="water">Water Feature Name</button>
+      <button class="wide-btn tool-choice" data-tool="label" data-label-style="note">Note</button>
+    </div>
+
+    <div class="tool-panel hidden" id="panel-select">
+      <div class="panel-title">Select &amp; Edit</div>
+      <p class="hint">Click an object to select it. Drag to move. Delete/Backspace removes it. Double-click a label to rename.</p>
+      <div id="inspector"></div>
+    </div>
+  </aside>
+
+  <main id="canvas-wrap">
+    <canvas id="view-canvas"></canvas>
+    <div id="label-editor" class="hidden">
+      <input type="text" id="label-editor-input">
+    </div>
+  </main>
+</div>
+
+<div id="modal-overlay" class="hidden">
+  <div id="new-map-modal">
+    <h2>New Map</h2>
+    <label>Map Name</label>
+    <input type="text" id="new-map-name" value="Untitled Map">
+    <label>Size</label>
+    <div class="size-options">
+      <label><input type="radio" name="size" value="small"> Small</label>
+      <label><input type="radio" name="size" value="medium" checked> Medium</label>
+      <label><input type="radio" name="size" value="large"> Large</label>
+    </div>
+    <div class="modal-actions">
+      <button id="btn-new-cancel">Cancel</button>
+      <button id="btn-new-create" class="primary">Create</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/brush-stamps.js"></script>
+<script src="js/janssonius-stamps.js"></script>
+<script src="js/raster-icons.js"></script>
+<script src="js/janssonius-icons.js"></script>
+<script src="js/terrain.js"></script>
+<script src="js/map-app.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
