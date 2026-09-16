@@ -41,20 +41,23 @@ const DECO_PARAMS = {
   tuft:       { spacing: 60, size: 60 },
 };
 
-// Deco types backed by hand-drawn brush stamps (see brush-stamps.js) rather
-// than procedural vector shapes, plus the ink color each is tinted with.
-// All from the Janssonius 17th-century pack now, for one consistent style.
+// Deco types backed by hand-drawn brush stamps (see brush-stamps.js /
+// janssonius-stamps.js) rather than procedural vector shapes, plus the ink
+// color each is tinted with. Each lists several visual variants -- one is
+// picked per decoration instance (deterministically, from its position) so
+// a painted forest or mountain range shows natural variety instead of one
+// symbol stamped over and over.
 const DECO_STAMPS = {
-  tree: { key: 'jans_tree', color: '#3f4a30' },
-  'tree-dark': { key: 'jans_forest_mass', color: '#333d28' },
-  hill: { key: 'jans_hill', color: 'rgba(58,46,24,0.6)' },
-  peak: { key: 'jans_mountain_range', color: '#4a3f30' },
-  'peak-snow': { key: 'jans_mountain_range', color: '#8f9499' },
-  reed: { key: 'reed', color: '#3d4a2c' },
-  dune: { key: 'dune', color: 'rgba(122,96,50,0.6)' },
-  crack: { key: 'jans_rocks', color: 'rgba(58,38,26,0.65)' },
-  wave: { key: 'jans_shallow_dots', color: 'rgba(255,255,255,0.55)' },
-  tuft: { key: 'jans_field', color: 'rgba(60,58,30,0.5)' },
+  tree: { keys: ['jans_tree', 'jans_tree_b', 'jans_tree_c', 'jans_tree_palm'], color: '#3f4a30' },
+  'tree-dark': { keys: ['jans_forest_mass', 'jans_forest_b', 'jans_forest_c', 'jans_forest_d', 'jans_forest_e'], color: '#333d28' },
+  hill: { keys: ['jans_hill', 'jans_hill_b', 'jans_hill_c', 'jans_hill_d', 'jans_hill_e'], color: 'rgba(58,46,24,0.6)' },
+  peak: { keys: ['jans_mountain_range', 'jans_range_b', 'jans_range_c', 'jans_range_d', 'jans_range_e'], color: '#4a3f30' },
+  'peak-snow': { keys: ['jans_mountain_range', 'jans_range_b', 'jans_range_c', 'jans_range_d', 'jans_range_e'], color: '#8f9499' },
+  reed: { keys: ['reed'], color: '#3d4a2c' },
+  dune: { keys: ['dune'], color: 'rgba(122,96,50,0.6)' },
+  crack: { keys: ['jans_rocks', 'jans_rocks_b', 'jans_rocks_c', 'jans_rocks_d'], color: 'rgba(58,38,26,0.65)' },
+  wave: { keys: ['jans_shallow_dots', 'jans_shallow_b', 'jans_shallow_c', 'jans_shallow_d'], color: 'rgba(255,255,255,0.55)' },
+  tuft: { keys: ['jans_field', 'jans_field_b', 'jans_field_c'], color: 'rgba(60,58,30,0.5)' },
 };
 
 // Cheap deterministic pseudo-random so re-rendering the same deco point
@@ -64,13 +67,20 @@ function hashRand(x, y, salt) {
   return h - Math.floor(h);
 }
 
+function pickVariant(keys, x, y) {
+  if (keys.length <= 1) return keys[0];
+  const idx = Math.floor(hashRand(x, y, 999) * keys.length);
+  return keys[Math.min(idx, keys.length - 1)];
+}
+
 function drawDeco(ctx, type, x, y, size, rot) {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(rot);
   const stamp = DECO_STAMPS[type];
   if (stamp) {
-    drawStamp(ctx, stamp.key, size, stamp.color);
+    const key = pickVariant(stamp.keys, x, y);
+    drawStamp(ctx, key, size, stamp.color);
     ctx.restore();
     return;
   }
