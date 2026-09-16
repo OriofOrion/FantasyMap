@@ -1,8 +1,8 @@
 // Wires the DOM (toolbar, panels, dialogs) to the MapApp + Tools engine.
-// Waits on stampsReady so the first render never races the brush-stamp
-// images (all embedded data: URIs, so this resolves near-instantly).
+// Waits on every brush-pack "ready" promise so the first render never races
+// the stamp images (all embedded data: URIs, so this resolves near-instantly).
 
-stampsReady.then(function () {
+Promise.all([stampsReady, janssoniusReady]).then(function () {
   const viewCanvas = document.getElementById('view-canvas');
   const app = new MapApp(viewCanvas);
   window.__mapApp = app; // handy for console debugging

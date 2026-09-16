@@ -24,12 +24,12 @@ const TERRAIN_KEYS = Object.keys(TERRAIN_TYPES);
 const DECO_PARAMS = {
   tree:       { spacing: 28, size: 24 },
   'tree-dark':{ spacing: 46, size: 46 },  // stamp already depicts a small tree cluster
-  hill:       { spacing: 42, size: 34 },
-  peak:       { spacing: 46, size: 38 },
-  'peak-snow':{ spacing: 46, size: 38 },
+  hill:       { spacing: 48, size: 55 },
+  peak:       { spacing: 55, size: 65 },
+  'peak-snow':{ spacing: 55, size: 65 },
   reed:       { spacing: 28, size: 20 },
   dune:       { spacing: 46, size: 34 },
-  crack:      { spacing: 48, size: 30 },
+  crack:      { spacing: 42, size: 26 },
   wave:       { spacing: 95, size: 20 },
   tuft:       { spacing: 24, size: 14 },
 };
@@ -39,12 +39,12 @@ const DECO_PARAMS = {
 const DECO_STAMPS = {
   tree: { key: 'tree_starburst', color: '#3f6b34' },
   'tree-dark': { key: 'tree_cluster', color: '#2f4a2a' },
-  hill: { key: 'hill_line', color: 'rgba(74,58,30,0.55)' },
-  peak: { key: 'peak_bold', color: '#7d7364' },
-  'peak-snow': { key: 'peak_single', color: '#eef3f4' },
+  hill: { key: 'jans_hill', color: 'rgba(58,46,24,0.6)' },
+  peak: { key: 'jans_mountain_range', color: '#4a3f30' },
+  'peak-snow': { key: 'jans_mountain_range', color: '#8f9499' },
   reed: { key: 'reed', color: '#3d4a2c' },
   dune: { key: 'dune', color: 'rgba(122,96,50,0.6)' },
-  crack: { key: 'crack', color: 'rgba(58,38,26,0.6)' },
+  crack: { key: 'jans_rocks', color: 'rgba(58,38,26,0.65)' },
 };
 
 // Cheap deterministic pseudo-random so re-rendering the same deco point

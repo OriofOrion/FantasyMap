@@ -406,7 +406,7 @@ class MapApp {
     const s = Math.max(60, Math.min(this.state.width, this.state.height) * 0.07);
     ctx.save();
     ctx.translate(pos.x, pos.y);
-    drawStamp(ctx, 'compass', s, '#3a2e22');
+    drawStamp(ctx, 'jans_compass', s, '#3a2e22');
     ctx.fillStyle = '#3a2e22';
     ctx.font = `${s * 0.14}px Georgia, serif`;
     ctx.textAlign = 'center';
